@@ -9,7 +9,6 @@ services:
 
   # ── FastAPI Backend ──────────────────────────────────────────
   backend:
-    image: ${ECR_REGISTRY}/cloud-comply-inspector-backend:${IMAGE_TAG:-latest}
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -19,35 +18,38 @@ services:
       - "8000:8000"
     environment:
       # DB
-      MONGODB_URI:              ${MONGODB_URI}
-      JWT_SECRET:               ${JWT_SECRET}
-      JWT_EXPIRY_HOURS:         ${JWT_EXPIRY_HOURS:-24}
-      ENCRYPTION_SECRET:        ${ENCRYPTION_SECRET}
+      MONGODB_URI:                ${MONGODB_URI}
+      JWT_SECRET:                 ${JWT_SECRET}
+      JWT_EXPIRY_HOURS:           ${JWT_EXPIRY_HOURS:-24}
+      ENCRYPTION_SECRET:          ${ENCRYPTION_SECRET}
       # AWS defaults
-      AWS_REGION:               ${AWS_REGION:-ap-south-1}
-      # Bedrock
-      BEDROCK_ACCESS_KEY_ID:    ${BEDROCK_ACCESS_KEY_ID}
-      BEDROCK_SECRET_ACCESS_KEY: ${BEDROCK_SECRET_ACCESS_KEY}
-      BEDROCK_REGION:           ${BEDROCK_REGION:-ap-south-1}
-      BEDROCK_MODEL_ID:         ${BEDROCK_MODEL_ID:-apac.anthropic.claude-3-5-sonnet-20241022-v2:0}
-      # App
-      PORT:                     8000
-      CLIENT_URL:               ${CLIENT_URL}
+      AWS_REGION:                 ${AWS_REGION:-ap-south-1}
+      # Bedrock (backend-only AI credentials)
+      BEDROCK_ACCESS_KEY_ID:      ${BEDROCK_ACCESS_KEY_ID}
+      BEDROCK_SECRET_ACCESS_KEY:  ${BEDROCK_SECRET_ACCESS_KEY}
+      BEDROCK_REGION:             ${BEDROCK_REGION:-ap-south-1}
+      BEDROCK_MODEL_ID:           ${BEDROCK_MODEL_ID:-apac.anthropic.claude-3-5-sonnet-20241022-v2:0}
+      # App / CORS
+      PORT:                       8000
+      CLIENT_URL:                 ${CLIENT_URL}
+      # Microsoft Teams Bot
+      TEAMS_APP_ID:               ${TEAMS_APP_ID}
+      TEAMS_APP_PASSWORD:         ${TEAMS_APP_PASSWORD}
+      TEAMS_APP_TENANT_ID:        ${TEAMS_APP_TENANT_ID}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/docs')"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 20s
+      start_period: 30s
 
   # ── React Frontend (nginx) ───────────────────────────────────
   frontend:
-    image: ${ECR_REGISTRY}/cloud-comply-inspector-frontend:${IMAGE_TAG:-latest}
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL:         ${VITE_API_URL:-http://localhost:8000}
+        VITE_API_URL:         ${VITE_API_URL}
         VITE_APP_SECRET_KEY:  ${VITE_APP_SECRET_KEY:-changeme}
         VITE_AWS_REGION:      ${VITE_AWS_REGION:-ap-south-1}
     container_name: cloudcomply-frontend
