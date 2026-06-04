@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.0",
+  "id": "843d3f60-9a75-478f-9ba2-4db774edc5b2",
+  "packageName": "com.cloudcomply.bot",
+  "developer": {
+    "name": "CloudComply AI",
+    "websiteUrl": "https://cloudcomply.ai",
+    "privacyUrl": "https://cloudcomply.ai/privacy",
+    "termsOfUseUrl": "https://cloudcomply.ai/terms"
+  },
+  "name": {
+    "short": "CloudComply AI",
+    "full": "CloudComply AI Security Investigator"
+  },
+  "description": {
+    "short": "AWS security investigation via natural language",
+    "full": "Ask plain English questions about your AWS account. CloudComply AI investigates CloudTrail, IAM, EC2, S3, KMS and more."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#1a1a2e",
+  "bots": [
+    {
+      "botId": "843d3f60-9a75-478f-9ba2-4db774edc5b2",
+      "scopes": ["personal", "team", "groupchat"],
+      "supportsFiles": false,
+      "isNotificationOnly": false,
+      "commandLists": [
+        {
+          "scopes": ["personal", "team", "groupchat"],
+          "commands": [
+            {
+              "title": "Security overview",
+              "description": "Get a full security posture summary of your AWS account"
+            },
+            {
+              "title": "Recent logins",
+              "description": "Who logged in to the AWS account recently?"
+            },
+            {
+              "title": "Check S3 buckets",
+              "description": "Are any S3 buckets publicly accessible?"
+            },
+            {
+              "title": "IAM changes",
+              "description": "Show recent IAM policy or user changes"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": []
+}

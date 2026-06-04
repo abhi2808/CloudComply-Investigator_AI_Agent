@@ -14,7 +14,7 @@ from app.core import security
 logger = logging.getLogger(__name__)
 
 # Routes exempt from authentication
-EXEMPT_PATHS = {"/api/health", "/docs", "/openapi.json", "/redoc"}
+EXEMPT_PATHS = {"/api/health", "/docs", "/openapi.json", "/redoc", "/api/messages"}
 EXEMPT_PREFIXES = {"/api/auth/"}
 
 

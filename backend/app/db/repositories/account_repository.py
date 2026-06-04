@@ -38,6 +38,17 @@ class AccountRepository:
         except Exception:
             return None
 
+    async def get_account_for_bot(self, account_id: str) -> dict | None:
+        """
+        Fetch an account by _id only, without checking user_id ownership.
+        Used exclusively by the Teams bot where all users share one PoC account.
+        """
+        db = get_database()
+        try:
+            return await db.accounts.find_one({"_id": ObjectId(account_id)})
+        except Exception:
+            return None
+
     async def delete_account(self, account_id: str, user_id: str) -> bool:
         db = get_database()
         try:

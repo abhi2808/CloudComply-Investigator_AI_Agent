@@ -39,6 +39,13 @@ class Settings(BaseSettings):
     # AWS Key Encryption
     encryption_secret: str = Field(..., description="Fernet Key Encryption Secret")
 
+    # Microsoft Teams Bot
+    teams_app_id: str = Field(default="", description="Azure Bot App (client) ID")
+    teams_app_password: str = Field(default="", description="Azure Bot client secret value")
+    teams_app_tenant_id: str = Field(default="", description="Azure AD tenant ID")
+    # Shared MongoDB account _id used by all Teams users (PoC — single AWS account)
+    teams_default_account_id: str = Field(default="", description="MongoDB account _id for Teams queries")
+
     model_config = {
         "env_file": ".env",
         "env_file_encoding": "utf-8",

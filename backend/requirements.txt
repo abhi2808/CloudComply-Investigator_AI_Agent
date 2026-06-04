@@ -12,3 +12,8 @@ passlib[bcrypt]
 bcrypt==4.0.1
 python-jose[cryptography]
 email-validator
+
+# Microsoft Teams Bot Framework
+botbuilder-core
+botbuilder-integration-aiohttp
+botframework-connector
